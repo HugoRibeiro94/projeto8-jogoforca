@@ -19,20 +19,17 @@ export default function App() {
   const [classPalavra, setClassPalavra] = useState('preto');
   const imagem = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
   
-  function jogar(i){
-    setTeclasClicadas([...teclasClicadas,i]);
-    
-    console.log(alfabeto[i]);
-    console.log(palavraEscolhida.includes(`${alfabeto[i]}`));
+  function jogar(letra){
+    setTeclasClicadas([...teclasClicadas,letra]);
 
-    if(palavraEscolhida.includes(`${alfabeto[i]}`)){
+    if(palavraEscolhida.includes(letra)){
 
       const aparecerLetras = [...palavra];
       console.log(aparecerLetras);
 
       palavraEscolhida.map( (letraCerta,indice) => {
 
-        if(letraCerta===alfabeto[i])
+        if(letraCerta===letra)
         aparecerLetras[indice]=letraCerta;
       })
       
@@ -62,6 +59,7 @@ export default function App() {
   function iniciarJogo(){
     setTeclasClicadas([]);
     setClassPalavra('preto');
+    setLetraErrada(0);
     const palavraArray = Math.floor(Math.random() * palavras.length);
     const palavraSorteada = palavras[palavraArray];
     console.log(palavraSorteada);
@@ -93,8 +91,8 @@ export default function App() {
         {alfabeto.map((letra, indice)=> 
           <button 
             key = {indice}
-            onClick={() => jogar(indice) }
-            className={`botaoTeclado ${teclasClicadas.includes(indice) ? "botaoClicado" : "botao"}`}
+            onClick={() => jogar(letra) }
+            className={`botaoTeclado ${teclasClicadas.includes(letra) ? "botaoClicado" : "botao"}`}
             disabled={teclasClicadas.includes(letra) ? true : false}
             data-test="letter" 
             >
