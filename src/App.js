@@ -16,10 +16,10 @@ export default function App() {
 
   const [teclasClicadas,setTeclasClicadas] = useState([...alfabeto]);
   const [letraErrada, setLetraErrada] = useState(0)
-  
+  const [classPalavra, setClassPalavra] = useState('preto');
   const imagem = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
   
-  function desabilitarTeclas(i){
+  function jogar(i){
     setTeclasClicadas([...teclasClicadas,i]);
     
     console.log(alfabeto[i]);
@@ -35,9 +35,12 @@ export default function App() {
         if(letraCerta===alfabeto[i])
         aparecerLetras[indice]=letraCerta;
       })
-
+      
       setPalavra(aparecerLetras);
-
+      if(aparecerLetras.join('') === palavraEscolhida.join('')){
+        setClassPalavra('verde');
+        setTeclasClicadas([...alfabeto]);
+      }
     }else{
       const erro = letraErrada + 1;
       setLetraErrada(erro);
@@ -45,6 +48,7 @@ export default function App() {
       if(erro == 6){
         setPalavra(palavraEscolhida);
         setTeclasClicadas([...alfabeto]);
+        setClassPalavra('vermelho');
       }
     }
   }
@@ -57,7 +61,7 @@ export default function App() {
 
   function iniciarJogo(){
     setTeclasClicadas([]);
-
+    setClassPalavra('preto');
     const palavraArray = Math.floor(Math.random() * palavras.length);
     const palavraSorteada = palavras[palavraArray];
     console.log(palavraSorteada);
@@ -78,7 +82,9 @@ export default function App() {
         <img data-test="game-image" src={imagem[letraErrada]}/>
         <div>
             <button data-test="choose-word" className="iniciar" onClick={iniciarJogo}>Escolher Palavra</button>
-            <div data-test="word" className="palavra">{palavra}</div>
+            <div data-test="word" className="palavra" >
+              <p className={classPalavra}>{palavra}</p>
+            </div>
         </div>
         
       </div>
@@ -87,7 +93,7 @@ export default function App() {
         {alfabeto.map((letra, indice)=> 
           <button 
             key = {indice}
-            onClick={() => desabilitarTeclas(indice) }
+            onClick={() => jogar(indice) }
             className={`botaoTeclado ${teclasClicadas.includes(indice) ? "botaoClicado" : "botao"}`}
             disabled={teclasClicadas.includes(letra) ? true : false}
             data-test="letter" 
