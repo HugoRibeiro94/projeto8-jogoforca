@@ -14,12 +14,16 @@ export default function App() {
 
   const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
-  const [teclasClicadas,setTeclasClicadas] = useState([]);
+  const [teclasClicadas,setTeclasClicadas] = useState([...alfabeto]);
 
   function desabilitarTeclas(i){
     setTeclasClicadas([...teclasClicadas,i]);
+    
+    console.log(alfabeto[i]);
+    console.log(palavraEscolhida.includes(`${alfabeto[i]}`));
+
   }
-  
+
   const [teclado,setTeclado] = useState(true);
 
   const [palavraEscolhida, setPalavraEscolhida] = useState('');
@@ -27,21 +31,19 @@ export default function App() {
   const [palavra, setPalavra] = useState([]);
 
   function iniciarJogo(){
-    setTeclado(false);
-    const arrayEmbaralhado = palavras.sort(comparador);
-    setPalavraEscolhida(arrayEmbaralhado[0]);
-    console.log(palavraEscolhida);
-    const palavraEscolhidaArray = palavraEscolhida.split('');
-    console.log(palavraEscolhidaArray);
-    console.log(palavraEscolhida.length);
 
-    const palavraTracejado = palavraEscolhidaArray.map( letra => ' _' );
+    const palavraArray = Math.floor(Math.random() * palavras.length);
+    const palavraSorteada = palavras[palavraArray];
+    console.log(palavraSorteada);
+    setPalavraEscolhida(palavraSorteada);
+    
+    const palavraSorteadaArray = palavraSorteada.split('');
+    console.log(palavraSorteadaArray);
+    //console.log(palavraEscolhida.length);
+
+    const palavraTracejado = palavraSorteadaArray.map( letra => ' _' );
     console.log(palavraTracejado);
     setPalavra(palavraTracejado);
-  }
-
-  function comparador() { 
-    return Math.random() - 0.5; 
   }
 
   return (
@@ -58,9 +60,10 @@ export default function App() {
 
         {alfabeto.map((letra, indice)=> 
           <button 
+            key = {indice}
             onClick={() => desabilitarTeclas(indice) }
             className={`botaoTeclado ${teclasClicadas.includes(indice) ? "botaoClicado" : "botao"}`}
-            disabled={teclado}
+            disabled={teclasClicadas.includes(indice) ? true : false}
             data-test="letter" 
             >
               {letra}
