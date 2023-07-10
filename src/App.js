@@ -26,20 +26,25 @@ export default function App() {
     console.log(palavraEscolhida.includes(`${alfabeto[i]}`));
 
     if(palavraEscolhida.includes(`${alfabeto[i]}`)){
+
       const aparecerLetras = [...palavra];
       console.log(aparecerLetras);
 
       palavraEscolhida.map( (letraCerta,indice) => {
+
         if(letraCerta===alfabeto[i])
         aparecerLetras[indice]=letraCerta;
       })
 
       setPalavra(aparecerLetras);
+
     }else{
       const erro = letraErrada + 1;
       setLetraErrada(erro);
-      if(erro > 6){
-        alert('Fim de jogo');
+
+      if(erro == 6){
+        setPalavra(palavraEscolhida);
+        setTeclasClicadas([...alfabeto]);
       }
     }
   }
@@ -60,7 +65,6 @@ export default function App() {
     
     const palavraSorteadaArray = palavraSorteada.split('');
     console.log(palavraSorteadaArray);
-    //console.log(palavraEscolhida.length);
     setPalavraEscolhida(palavraSorteadaArray);
 
     const palavraTracejado = palavraSorteadaArray.map( letra => ' _' );
@@ -85,7 +89,7 @@ export default function App() {
             key = {indice}
             onClick={() => desabilitarTeclas(indice) }
             className={`botaoTeclado ${teclasClicadas.includes(indice) ? "botaoClicado" : "botao"}`}
-            disabled={teclasClicadas.includes(indice) ? true : false}
+            disabled={teclasClicadas.includes(letra) ? true : false}
             data-test="letter" 
             >
               {letra}
