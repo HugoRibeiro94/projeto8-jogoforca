@@ -14,27 +14,59 @@ export default function App() {
 
   const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
-  //const [teclasClicadas,setTeclasClicadas] = useState([]);
+  const [teclasClicadas,setTeclasClicadas] = useState([]);
+
+  function desabilitarTeclas(i){
+    setTeclasClicadas([...teclasClicadas,i]);
+  }
+  
   const [teclado,setTeclado] = useState(true);
+
+  const [palavraEscolhida, setPalavraEscolhida] = useState('');
+
+  const [palavra, setPalavra] = useState([]);
 
   function iniciarJogo(){
     setTeclado(false);
+    const arrayEmbaralhado = palavras.sort(comparador);
+    setPalavraEscolhida(arrayEmbaralhado[0]);
+    console.log(palavraEscolhida);
+    const palavraEscolhidaArray = palavraEscolhida.split('');
+    console.log(palavraEscolhidaArray);
+    console.log(palavraEscolhida.length);
+
+    const palavraTracejado = palavraEscolhidaArray.map( letra => ' _' );
+    console.log(palavraTracejado);
+    setPalavra(palavraTracejado);
   }
 
-  function alerta(){
-    alert("oi");
+  function comparador() { 
+    return Math.random() - 0.5; 
   }
+
   return (
     <div>
       <div className="jogo">
-        <img src={forca0}/>
+        <img data-test="game-image" src={forca0}/>
         <div>
-            <button className="iniciar" onClick={iniciarJogo}>Escolher Palavra</button>
+            <button data-test="choose-word" className="iniciar" onClick={iniciarJogo}>Escolher Palavra</button>
+            <div data-test="word" className="palavra">{palavra}</div>
         </div>
         
       </div>
       <div className="teclado">
-        {alfabeto.map((letra)=> <button className="botaoTeclado" disabled={teclado} onClick={alerta}>{letra}</button>)}
+
+        {alfabeto.map((letra, indice)=> 
+          <button 
+            onClick={() => desabilitarTeclas(indice) }
+            className={`botaoTeclado ${teclasClicadas.includes(indice) ? "botaoClicado" : "botao"}`}
+            disabled={teclado}
+            data-test="letter" 
+            >
+              {letra}
+          </button>
+        )}
+
       </div>
     </div>
   );

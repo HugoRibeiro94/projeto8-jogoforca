@@ -16,6 +16,12 @@
     font-weight: 600;
 }
 
+.palavra{
+    margin: 200px;
+    font-size: 50px;
+    font-weight: 800;
+}
+
 .teclado{
     height: 120px;
     width: 650px;
@@ -27,11 +33,20 @@
 }
 
 .botaoTeclado{
-    color:rgb(8, 132, 221);
-    background-color: rgb(198, 220, 235);
+    
     width: 45px;
     height: 45px;
     margin-left: 5px;
     font-size: 20px;
     font-weight: 600;
+}
+
+.botao{
+    background-color: rgb(198, 220, 235);
+    color:rgb(8, 132, 221);
+}
+
+.botaoClicado{
+    color: rgb(61, 63, 65);
+    background-color:rgb(87, 87, 87);
 }
