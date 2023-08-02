@@ -15,92 +15,50 @@ export default function App() {
   const alfabeto = ["a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z"];
 
   const [teclasClicadas,setTeclasClicadas] = useState([...alfabeto]);
-  const [letraErrada, setLetraErrada] = useState(0)
+
+  const [letraErrada, setLetraErrada] = useState(0);
+
   const [classPalavra, setClassPalavra] = useState('preto');
-  const imagem = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
-  
-  function jogar(letra){
-    setTeclasClicadas([...teclasClicadas,letra]);
-
-    if(palavraEscolhida.includes(letra)){
-
-      const aparecerLetras = [...palavra];
-      console.log(aparecerLetras);
-
-      palavraEscolhida.map( (letraCerta,indice) => {
-
-        if(letraCerta===letra)
-        aparecerLetras[indice]=letraCerta;
-      })
-      
-      setPalavra(aparecerLetras);
-      if(aparecerLetras.join('') === palavraEscolhida.join('')){
-        setClassPalavra('verde');
-        setTeclasClicadas([...alfabeto]);
-      }
-    }else{
-      const erro = letraErrada + 1;
-      setLetraErrada(erro);
-
-      if(erro == 6){
-        setPalavra(palavraEscolhida);
-        setTeclasClicadas([...alfabeto]);
-        setClassPalavra('vermelho');
-      }
-    }
-  }
-
-  //const [teclado,setTeclado] = useState(true);
 
   const [palavraEscolhida, setPalavraEscolhida] = useState('');
 
   const [palavra, setPalavra] = useState([]);
 
-  function iniciarJogo(){
-    setTeclasClicadas([]);
-    setClassPalavra('preto');
-    setLetraErrada(0);
-    const palavraArray = Math.floor(Math.random() * palavras.length);
-    const palavraSorteada = palavras[palavraArray];
-    console.log(palavraSorteada);
-    
-    
-    const palavraSorteadaArray = palavraSorteada.split('');
-    console.log(palavraSorteadaArray);
-    setPalavraEscolhida(palavraSorteadaArray);
-
-    const palavraTracejado = palavraSorteadaArray.map( letra => ' _' );
-    console.log(palavraTracejado);
-    setPalavra(palavraTracejado);
-  }
+  const imagem = [forca0, forca1, forca2, forca3, forca4, forca5, forca6];
 
   return (
     <div>
-      <div className="jogo">
-        <img data-test="game-image" src={imagem[letraErrada]}/>
-        <div>
-            <button data-test="choose-word" className="iniciar" onClick={iniciarJogo}>Escolher Palavra</button>
-            <div data-test="word" className="palavra" >
-              <p className={classPalavra}>{palavra}</p>
-            </div>
-        </div>
-        
-      </div>
-      <div className="teclado">
+      
+      <Jogo 
+        imagem={imagem}
+        classPalavra={classPalavra}
+        setClassPalavra={setClassPalavra}
+        palavra={palavra}
+        setPalavra={setPalavra}
+        palavraEscolhida={palavraEscolhida} 
+        setPalavraEscolhida={setPalavraEscolhida}
+        teclasClicadas={teclasClicadas}
+        setTeclasClicadas={setTeclasClicadas}
+        letraErrada={letraErrada}
+        setLetraErrada={setLetraErrada}
+      />
 
-        {alfabeto.map((letra, indice)=> 
-          <button 
-            key = {indice}
-            onClick={() => jogar(letra) }
-            className={`botaoTeclado ${teclasClicadas.includes(letra) ? "botaoClicado" : "botao"}`}
-            disabled={teclasClicadas.includes(letra) ? true : false}
-            data-test="letter" 
-            >
-              {letra}
-          </button>
-        )}
+      <Letras 
+        alfabeto={alfabeto}
+        imagem={imagem}
+        classPalavra={classPalavra}
+        setClassPalavra={setClassPalavra}
+        palavra={palavra}
+        setPalavra={setPalavra}
+        palavraEscolhida={palavraEscolhida} 
+        setPalavraEscolhida={setPalavraEscolhida}
+        teclasClicadas={teclasClicadas}
+        setTeclasClicadas={setTeclasClicadas}
+        letraErrada={letraErrada}
+        setLetraErrada={setLetraErrada}
+      />
 
-      </div>
+      
     </div>
   );
 }
